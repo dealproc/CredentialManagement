@@ -9,3 +9,4 @@ Bin/*
 *.suo
 *.user
 Portal/Modules/**
+packages/**
