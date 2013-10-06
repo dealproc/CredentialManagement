@@ -1,0 +1,11 @@
+syntax: glob
+App/*.js
+App/*.js.map
+Scripts/App/*
+obj/*
+Obj/*
+bin/*
+Bin/*
+*.suo
+*.user
+Portal/Modules/**

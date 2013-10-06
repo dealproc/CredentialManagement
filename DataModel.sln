@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{06FE27AA-7931-4E21-BF05-E533824B67B7}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "source\DataModel\DataModel.csproj", "{65A4B995-33C3-4796-ACA8-F1A4BE5BD677}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel.SQLite", "source\DataModel.SQLite\DataModel.SQLite.csproj", "{7567FD46-A652-4DD9-8A92-36A51C8DBD27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHost", "source\WebHost\WebHost.csproj", "{2232D96F-C45F-449C-876B-4CBAB55386B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65A4B995-33C3-4796-ACA8-F1A4BE5BD677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65A4B995-33C3-4796-ACA8-F1A4BE5BD677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65A4B995-33C3-4796-ACA8-F1A4BE5BD677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65A4B995-33C3-4796-ACA8-F1A4BE5BD677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7567FD46-A652-4DD9-8A92-36A51C8DBD27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7567FD46-A652-4DD9-8A92-36A51C8DBD27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7567FD46-A652-4DD9-8A92-36A51C8DBD27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7567FD46-A652-4DD9-8A92-36A51C8DBD27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2232D96F-C45F-449C-876B-4CBAB55386B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2232D96F-C45F-449C-876B-4CBAB55386B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2232D96F-C45F-449C-876B-4CBAB55386B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2232D96F-C45F-449C-876B-4CBAB55386B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

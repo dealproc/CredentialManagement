@@ -1,0 +1,11 @@
+﻿<div class="messageBox">
+    <div class="modal-header"><h3 data-bind="text: title"></h3></div>
+    <div class="modal-body">
+        <ul data-bind="foreach: messages">
+            <li data-bind="text: $data"></li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-mini btn-primary" data-bind="click: closeMessageBox">Ok</button>
+    </div>
+</div>
