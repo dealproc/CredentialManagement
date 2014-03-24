@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataModel
-{
+﻿namespace DataModel {
+    using System;
     public class Address
-        : IEquatable<Address>
-    {
+        : IEquatable<Address> {
         public virtual string Street { get; set; }
         public virtual string City { get; set; }
         public virtual string StateIntlOther { get; set; }
         public virtual string ZipPostal { get; set; }
         public virtual string Country { get; set; }
 
-        public virtual void Copy(Address from)
-        {
+        public virtual void Copy(Address from) {
             this.Street = from.Street;
             this.City = from.City;
             this.StateIntlOther = from.StateIntlOther;
@@ -24,8 +16,7 @@ namespace DataModel
             this.Country = from.Country;
         }
 
-        public bool Equals(Address other)
-        {
+        public bool Equals(Address other) {
             return Street.Equals(other.Street) &&
                 City.Equals(other.City) &&
                 StateIntlOther.Equals(other.StateIntlOther) &&

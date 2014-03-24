@@ -23,7 +23,7 @@ namespace WebHost.ModelMappers
                 .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(x => x.BillingAccountNumber, opt => opt.MapFrom(x => x.BillingAccountNumber))
                 .ForMember(x => x.InvoiceReseller, opt => opt.MapFrom(x => x.InvoiceReseller))
-                .ForMember(x => x.ResellerDBAName, opt => opt.MapFrom(x => x.Reseller.DBAName))
+                .ForMember(x => x.ResellerDBAName, opt => opt.MapFrom(x => x.Reseller.DoingBusinessAsName))
                 .ForMember(x => x.ResellerId, opt => opt.MapFrom(x => x.Reseller.Id))
                 .ForMember(x => x.ResellerLegalName, opt => opt.MapFrom(x => x.Reseller.LegalName));
 

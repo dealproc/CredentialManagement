@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataModel
-{
+﻿namespace DataModel {
     public class ChildAccount
-        : Account
-    {
+        : Account {
         public virtual Account MasterAccount { get; set; }
     }
 }

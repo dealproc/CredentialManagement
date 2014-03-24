@@ -9,6 +9,7 @@
         var ctor = function () { };
 
         ctor.prototype.dataService = provider.define("Group");
+        ctor.prototype.parentGroups = undefined;
 
         ctor.prototype.title = "Create Group";
 
@@ -19,7 +20,8 @@
         ctor.prototype.save = function () {
             var _Self = this;
 
-            if (_Self.model.errors.length === 0) {
+            _Self.validationModel.errors.showAllMessages();
+            if (_Self.validationModel.isValid()) {
                 _Self.dataService.save(_Self.model)
                 .then(function (data) {
                     app.trigger("group:add", data);
@@ -29,9 +31,13 @@
                     alert("Something bad happened!");
                 });
             } else {
-                errorMessage.show(_Self.model.errors, "Cannot save Group.");
+                errorMessage.show(_Self.validationModel.errors(), "Cannot save Group.");
             }
         };
+
+        ctor.prototype.ClearParentGroups = function () {
+            this.model.ParentGroups = [];
+        }
 
         ctor.show = function () {
             var dlg = new ctor();
@@ -44,9 +50,18 @@
                 ParentGroups: []
             }
 
+            dlg.dataService.getAll({})
+                .then(function (allGroups) {
+                    dlg.parentGroups = $.grep(allGroups, function (g, idx) {
+                        return g.ParentGroupCount === 0;
+                    });
+                });
+
             observable(dlg.model, "Name").extend({ required: { message: "Group Name is Required." } });
 
-            observable.defineProperty(dlg.model, "errors", ko.validation.group(dlg.model));
+            dlg["validationModel"] = ko.validatedObservable({
+                p1: dlg.model
+            });
 
             return dialog.show(dlg);
         };

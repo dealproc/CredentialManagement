@@ -84,10 +84,6 @@ define([
             createForm.show();
         };
 
-        ctor.prototype.Edit = function (role) {
-            router.navigate("credentials/" + role.Id + "/edit", true);
-        };
-
         ctor.prototype.IncludeRoles = function (role) {
             includeRoleForm.show(role);
         };

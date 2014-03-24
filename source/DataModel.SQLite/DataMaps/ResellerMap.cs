@@ -15,7 +15,7 @@ namespace DataModel.SQLite.DataMaps
             Id(x => x.Id);
 
             Map(x => x.LegalName);
-            Map(x => x.DBAName);
+            Map(x => x.DoingBusinessAsName);
             Map(x => x.BillingAccountNumber);
 
             Component(x => x.BillTo, a =>

@@ -5,58 +5,88 @@
 
 define([
     "durandal/app",
-    "dataservices/provider",
-    "./Create"],
-    function (app, provider, createForm) {
+    "./create",
+    "dataservices/provider"],
+    function (app, createForm, provider) {
         var ctor = function () { };
 
-        ctor.prototype.groups = [];
+        ctor.grid = undefined;
 
-        ctor.prototype.dataService = provider.define("Group");
-
-        ctor.prototype.activate = function () {
+        ctor.prototype.compositionComplete = function () {
             var _Self = this;
+            _Self.grid = $("#tblGroups");
+            _Self.grid.dataTable({
+                bProcessing: true,
+                bServerSide: true,
+                bJQueryUI: false,
+                bSortable: true,
+                aoColumnDefs: [
+                    {
+                        sTitle: "Name", mDataProp: "Name", aTargets: [0], sClass: "col-md-2",
+                        mRender: function (data, type, full) {
+                            if (data !== undefined && data !== null) {
+                                return "<a href=\"#groups/edit/" + full.Id.toString() + "\">" + data + "</a>";
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    { sTitle: "Description", mDataProp: "Description", aTargets: [1], sClass: "col-md-3" },
+                    {
+                        sTile: "Parent Groups", mDataProp: "Id", aTargets: [2], sClass: "col-md-2",
+                        mRender: function (data, type, full) {
+                            if (data !== undefined && data !== null) {
+                                return "<a href=\"#groups/edit/" + full.Id.toString() + "\">View Groups (" + full.ParentGroupCount.toString() + ")</a>";
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    {
+                        sTitle: "Roles", mDataProp: "Id", aTargets: [3], sClass: "col-md-2",
+                        mRender: function (data, type, full) {
+                            if (data !== undefined && data !== null) {
+                                var editGroupLink = "<a href=\"#groups/edit/" + full.Id.toString() + "/roles\">View Roles (" + full.RoleCount.toString() + ")</a>";
+                                return editGroupLink;
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    {
+                        sTitle: "Users", mDataProp: "Id", aTargets: [4], sClass: "col-md-2",
+                        mRender: function (data, type, full) {
+                            if (data !== undefined && data !== null) {
+                                var editGroupLink = "<a href=\"#groups/edit/" + full.Id.toString() + "/users\">View Users (" + full.UserCount.toString() + ")</a>";
+                                return editGroupLink;
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    {
+                        sTitle: "", mDataProp: "Id", aTargets: [5], sClass: "col-md-1",
+                        mRender: function (data, type, full) {
+                            if (!full.IsSystem) {
+                                return "<a href=\"#\" onclick=\"javascript: { var ctx = ko.contextFor($('#tblGroups')[0]); ctx.$data.remove(" + full.Id + "); return false; }\">Remove</a>";
+                            }
+                            return "";
+                        }
+                    }
+                ],
+                sAjaxSource: "/api/Group"
+            });
 
             _Self.newGroupSubscription = app.on("group:add", function (group) {
-                _Self.groups.push(group);
+                _Self.grid.fnDraw();
             });
             _Self.updateGroupSubscription = app.on("group:update", function (group) {
-                var idx = -1;
-                for (var i = 0; i < _Self.groups.length; i++) {
-                    if (_Self.groups[i].Id == group.Id) {
-                        idx = i;
-                        break;
-                    };
-                };
-                if (idx >= 0) {
-                    _Self.groups.splice(idx, 1, group);
-                };
+                _Self.grid.fnDraw();
             });
             _Self.removeGroupSubscription = app.on("group:remove", function (group) {
-                var idx = -1;
-                for (var i = 0; i < _Self.groups.length; i++) {
-                    if (_Self.groups[i].Id == group.Id) {
-                        idx = i;
-                        break;
-                    };
-                };
-                if (idx >= 0) {
-                    _Self.groups.splice(idx, 1);
-                };
+                _Self.grid.fnDraw();
             });
-
-            _Self.dataService.get({})
-            .then(function (data) {
-                _Self.groups = data;
-            })
-            .fail(function (xhr, textStatus, errorThrown) {
-                def.reject(xhr.responseText, textStatus, errorThrown);
-            });
-        };
-
-        ctor.prototype.canActivate = function () {
-            return true;
-        };
+        }
 
         ctor.prototype.deactivate = function () {
             this.newGroupSubscription.off();
@@ -64,13 +94,24 @@ define([
             this.removeGroupSubscription.off();
         }
 
+
         ctor.prototype.Create = function () {
             createForm.show();
-        };
-
-        ctor.prototype.Edit = function (group) {
-            alert("Hello: " + group.Name);
-        };
-
+        }
+        ctor.prototype.remove = function (id) {
+            var svc = provider.define("Group");
+            svc.get({ id: id })
+                .then(function (data) {
+                    app.showMessage("Delete '" + data.Name + "'?", "Confirmation", ["Yes", "No"])
+                        .then(function (response) {
+                            if (response == "Yes") {
+                                svc.remove({ id: id })
+                                    .then(function (data) {
+                                        app.trigger("group:remove", data);
+                                    });
+                            }
+                        });
+                });
+        }
         return ctor;
     });
